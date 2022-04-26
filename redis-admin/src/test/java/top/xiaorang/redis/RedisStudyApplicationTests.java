@@ -20,7 +20,10 @@ public class RedisStudyApplicationTests {
     @Test
     @Transactional(rollbackFor = Exception.class) // 导致回滚
     public void save() {
-        User user = User.builder().username("小让").password("123456").sex(1).build();
+        User user = new User();
+        user.setUsername("小让");
+        user.setPassword("123456");
+        user.setSex(1);
         userService.save(user);
     }
 
@@ -34,9 +37,10 @@ public class RedisStudyApplicationTests {
     public void addUsers() {
         List<User> users = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            User user = User.builder().username("zzyy" + i)
-                    .sex(new Random().nextInt(2))
-                    .password(IdUtil.simpleUUID().substring(0, 6)).build();
+            User user = new User();
+            user.setUsername("zzyy" + i);
+            user.setPassword(IdUtil.simpleUUID().substring(0, 6));
+            user.setSex(new Random().nextInt(2));
             users.add(user);
         }
         userService.saveBatch(users);

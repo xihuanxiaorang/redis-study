@@ -30,9 +30,10 @@ public class UserController {
     @PostMapping
     public void addUser() {
         for (int i = 0; i < 5; i++) {
-            User user = User.builder().username("zzyy" + i)
-                    .sex(new Random().nextInt(2))
-                    .password(IdUtil.simpleUUID().substring(0, 6)).build();
+            User user = new User();
+            user.setUsername("zzyy" + i);
+            user.setPassword(IdUtil.simpleUUID().substring(0, 6));
+            user.setSex(new Random().nextInt(2));
             userService.addUser(user);
         }
     }

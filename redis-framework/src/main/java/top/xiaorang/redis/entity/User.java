@@ -1,7 +1,6 @@
 package top.xiaorang.redis.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,10 +17,12 @@ import java.util.Date;
  */
 @Getter
 @Setter
-@Builder
 @TableName("t_user")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    public User() {
+    }
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;

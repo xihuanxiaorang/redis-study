@@ -65,11 +65,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public User findUserById(Integer id) {
         String key = CACHE_USER_KEY + id;
+        // 先从redis中查询，查到了直接返回，否则查询数据库
         User user = (User) redisTemplate.opsForValue().get(key);
         if (user == null) {
-            user = userMapper.selectById(id);
-            if (user != null) {
-                redisTemplate.opsForValue().set(key, user);
+            // 大厂用，对于高QPS，进来就加锁，保证一个请求操作
+            synchronized (UserServiceImpl.class) {
+                // 再次从redis中查询，查到了直接返回，否则查询数据库
+                user = (User) redisTemplate.opsForValue().get(key);
+                if (user == null) {
+                    // 查询数据库
+                    user = userMapper.selectById(id);
+                    if (user != null) {
+                        // 如果数据库中有数据，则需要将查询到的数据回写到redis,完成数据一致性的同步工作
+                        redisTemplate.opsForValue().set(key, user);
+                    }
+                }
             }
         }
         return user;
