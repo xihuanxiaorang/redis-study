@@ -1,0 +1,9 @@
+server:
+  port: 8500
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: top.xiaorang.redis.entity
