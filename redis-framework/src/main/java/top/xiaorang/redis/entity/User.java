@@ -18,10 +18,9 @@ import java.util.Date;
  */
 @Getter
 @Setter
-@TableName("t_user")
 @Builder
+@TableName("t_user")
 public class User implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
@@ -59,6 +58,4 @@ public class User implements Serializable {
      */
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
-
-
 }
